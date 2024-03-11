@@ -18,6 +18,10 @@ const itemSchema = new mongoose.Schema({
     default: true,
     required: true,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   created_at: {
     type: Date,
     default: Date.now(),
