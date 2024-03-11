@@ -18,7 +18,7 @@ mongoose.connection.on("error", (error) => {
 });
 
 async function startServer() {
-  //await mongoose.connect(MONGO_DB_URL);
+  await mongoose.connect(MONGODB_URL);
 
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
