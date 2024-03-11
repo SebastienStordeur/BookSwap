@@ -11,11 +11,12 @@ const itemSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: false,
+    required: true,
   },
   to_trade: {
     type: Boolean,
     default: true,
+    required: true,
   },
   created_at: {
     type: Date,

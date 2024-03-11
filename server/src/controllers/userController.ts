@@ -40,7 +40,6 @@ export async function login(req: Request, res: Response) {
     }
 
     const token = jwt.sign({ id: user._id }, "SECRET", { expiresIn: "30d" });
-
     return res.status(200).json({ token });
   } catch (error) {
     return res.status(500).json({ error: error });
