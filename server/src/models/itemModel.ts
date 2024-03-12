@@ -1,4 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+
+export interface ItemInterface extends Document {
+  title: string;
+  description: string;
+  price: number;
+  to_trade: boolean;
+  owner: mongoose.Schema.Types.ObjectId;
+  created_at: Date;
+  updated_at: Date;
+}
 
 const itemSchema = new mongoose.Schema({
   title: {
@@ -21,6 +31,7 @@ const itemSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   created_at: {
     type: Date,
@@ -34,6 +45,6 @@ const itemSchema = new mongoose.Schema({
   },
 });
 
-const Item = mongoose.model("Item", itemSchema);
+const Item = mongoose.model<ItemInterface>("Item", itemSchema);
 
 export default Item;

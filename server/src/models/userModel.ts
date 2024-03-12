@@ -1,7 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Types, ObjectId } from "mongoose";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
+interface User {
+  _id: ObjectId;
+  username: string;
+  email: string;
+  password: string;
+  items: Types.ObjectId[];
+  created_at: Date;
+  updated_at: Date;
+}
+
+const userSchema = new mongoose.Schema<User>({
   username: {
     type: String,
     unique: true,
