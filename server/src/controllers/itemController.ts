@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
-import Item, { ItemInterface } from "../models/itemModel";
-import mongoose, { Document } from "mongoose";
-import User from "../models/userModel";
-import ObjectId from "mongoose";
+import Item from "../models/itemModel";
 
 // specify items from WHICH USER
 export async function getItemsFromUser(req: Request, res: Response) {
@@ -38,7 +35,7 @@ export async function createItem(req: Request, res: Response) {
       to_trade === undefined ||
       !userId
     ) {
-      return res.status(400).json({ error: "some error occured" });
+      return res.status(400).json({ error: "Some fields are missing" });
     }
 
     const item = await Item.create({
