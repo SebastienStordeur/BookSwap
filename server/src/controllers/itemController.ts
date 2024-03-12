@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Item, { ItemInterface } from "../models/itemModel";
 import mongoose, { Document } from "mongoose";
 import User from "../models/userModel";
+import ObjectId from "mongoose";
 
 // specify items from WHICH USER
 export async function getItemsFromUser(req: Request, res: Response) {
@@ -24,7 +25,7 @@ export async function getItem(req: Request, res: Response) {
   }
 }
 
-// Transaction, update user.items => unShift new item and create the new entry in item db
+// Todo, manage picture / pictures
 export async function createItem(req: Request, res: Response) {
   let { title, description, price, to_trade } = req.body;
   const userId = res.locals.userId;
@@ -50,7 +51,31 @@ export async function createItem(req: Request, res: Response) {
 
     return res.status(201).json({ item });
   } catch (error) {
-    console.log(error);
+    return res.status(400).json({ error });
+  }
+}
+
+// Delete
+export async function deleteItem(req: Request, res: Response) {
+  try {
+    const itemId = req.params.id;
+    const userId = res.locals.userId;
+    const item = await Item.findById(itemId);
+
+    if (!item) {
+      return res.status(404).json({ error: "This item does not exist." });
+    }
+
+    if (item.owner.toString() !== userId) {
+      return res
+        .status(401)
+        .json({ error: "You are not allowed to make this request" });
+    }
+
+    await item.deleteOne().then(() => {
+      return res.status(200).json({ success: true });
+    });
+  } catch (error) {
     return res.status(400).json({ error });
   }
 }
